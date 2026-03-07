@@ -1,0 +1,10 @@
+l1=[0,8,10,12,18]
+l2=[1,2,3,4,5,6,7,8]
+l3=l1+l2
+l4=l2+l1
+print(l3)
+print(l4)
+print("1:",id(l1))
+print("2:",id(l2))
+print("3:",id(l3))
+print("4:",id(l4))
