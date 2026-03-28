@@ -1,8 +1,8 @@
-# Git Push Task - COMPLETE
+# TODO: Push All Changes to GitHub
 
-## Completed Steps:
-- [x] Step 1: Staged all pending changes (`git add .`)
-- [x] Step 2: Committed "Update blog templates, views, templatetags, and latest_posts.html" (commit 59f7387)
-- [x] Step 3: Pushed to origin master (master -> master)
-- [x] Step 4: Updated TODO.md
-- [x] Step 5: Working tree clean, changes live at https://github.com/FOX-KNIGHT/Django
+- [ ] Step 1: Update .gitignore to exclude .env, mysite_data.json, etc.
+- [ ] Step 2: Stage safe changes (e.g., settings.py).
+- [ ] Step 3: Commit changes.
+- [ ] Step 4: Push to origin/master.
+- [ ] Step 5: Verify with git status/log.
+
