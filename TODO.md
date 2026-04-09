@@ -1,4 +1,4 @@
-# TODO: Push All Changes to GitHub
+
 
 - [ ] Step 1: Update .gitignore to exclude .env, mysite_data.json, etc.
 - [ ] Step 2: Stage safe changes (e.g., settings.py).

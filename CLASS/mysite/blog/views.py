@@ -1,8 +1,9 @@
+from django.contrib.postgres.search import TrigramSimilarity, SearchQuery, SearchVector, SearchRank
 from django.shortcuts import render,get_object_or_404
 from .models import Post
 from django.core.paginator import Paginator
 from django.views.generic import ListView
-from .forms import CommentForm,EmailPostForm
+from .forms import CommentForm,EmailPostForm, SearchForm
 from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
 from taggit.models import Tag
@@ -40,7 +41,6 @@ def post_list(request,tag_slug=None):
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(
         Post,
-        #id =id,
         status = Post.Status.PUBLISHED,
         slug=post,
         publish__year=year,
@@ -48,9 +48,7 @@ def post_detail(request, year, month, day, post):
         publish__day=day
     )
 
-    # List of active comments for this post
     comments = post.comments.filter(active=True)
-    # Form for users to comment
     form = CommentForm()
 
     post_tags_ids = post.tags.values_list('id', flat=True)
@@ -73,9 +71,7 @@ def post_detail(request, year, month, day, post):
     )
 
 
-
 def post_share(request, post_id):
-    #retrieve post by id
     post = get_object_or_404(
         Post,
         id=post_id,
@@ -87,7 +83,6 @@ def post_share(request, post_id):
     if request.method == 'POST':
         form = EmailPostForm(request.POST)
         if form.is_valid():
-            # Form fields passed validation
             cd = form.cleaned_data
             post_url = request.build_absolute_uri(
                 post.get_absolute_url()
@@ -133,14 +128,10 @@ def post_comment(request, post_id):
         status=Post.Status.PUBLISHED
     )
     comment = None
-    # A comment was posted
     form = CommentForm(data=request.POST)
     if form.is_valid():
-        # Create a Comment object without saving it to the database
         comment = form.save(commit=False)
-        # Assign the post to the comment
         comment.post = post
-        # Save the comment to the database
         comment.save()
     return render(
         request,
@@ -151,4 +142,31 @@ def post_comment(request, post_id):
             'comment': comment
         }
     )
-    
+
+def post_search(request):
+    form = SearchForm()
+    query = None
+    results = []
+
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            search_vector = SearchVector('title', weight='A') + SearchVector('body', weight='B')
+            search_query = SearchQuery(query)
+            results = (
+                Post.published.annotate(
+                    similarity=TrigramSimilarity('title', query)
+                ).filter(similarity__gt=0.1)
+                .order_by(('-similarity'))
+            )
+
+    return render(
+        request,
+        'blog/post/search.html',
+        {
+            'form': form,
+            'query': query,
+            'results': results
+        }
+    )
