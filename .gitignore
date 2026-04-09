@@ -41,4 +41,12 @@ db.sqlite3-journal
 .DS_Store
 Thumbs.db
 
-"*.pdf" 
+"*.pdf"
+
+# Secrets and data
+.env
+mysite_data.json
+CLASS/mysite/.env
+CLASS/mysite/mysite_data.json
+*.log
+
