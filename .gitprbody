@@ -1,0 +1,6 @@
+Fixes the Django application errors:
+
+1. Removes incorrect import causing ModuleNotFoundError
+2. Adds missing dashboard view function
+
+This resolves the AttributeError: module 'account.views' has no attribute 'dashboard'
