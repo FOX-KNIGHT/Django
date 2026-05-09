@@ -1,10 +1,7 @@
-# Fix Django TemplateSyntaxError in base.html
+# TODO - bookmarks (Django)
 
-## Steps:
-- [x] 1. Verified syntax in CLASS/bookmarks/account/templates/base.html - {% if %} at line 11 has matching {% endif %} after <ul> menu. File is syntactically correct.
-- [x] 2. Clear Django template cache (restart server recommended).
-- [x] 3. Restart Django development server: cd CLASS/bookmarks && python manage.py runserver
-- [x] 4. Test http://127.0.0.1:8000/account/login/ - Success, no TemplateSyntaxError (server reload fixed).
-- [x] 5. Mark complete and attempt_completion.
+- [x] Add missing `image_detail` view in `CLASS/bookmarks/images/views.py` (URLconf expects it).
+- [x] Ensure `image_detail` renders `images/image/detail.html` with `image` context.
+- [ ] Run `python manage.py makemigrations` and `python manage.py migrate` after fixing the view/import error.
 
-**Status: COMPLETE** - Template fixed and server running.
+
